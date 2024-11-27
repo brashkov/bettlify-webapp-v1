@@ -1,0 +1,16 @@
+src/
+  ├── components/
+  │   ├── landing/
+  │   │   ├── Hero.tsx
+  │   │   ├── Features.tsx
+  │   │   ├── Pricing.tsx
+  │   │   ├── Testimonials.tsx
+  │   │   └── CallToAction.tsx
+  │   └── shared/
+  │       ├── Button.tsx
+  │       ├── Container.tsx
+  │       └── Navbar.tsx
+  ├── styles/
+  │   └── globals.css
+  └── app/
+      └── page.tsx 

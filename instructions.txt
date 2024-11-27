@@ -1,0 +1,14 @@
+I'm giving you a init nextjs projeect. It has nothing in it, only its initial setup.
+
+I want to create a web app that will use data from a database to display information to the user. I have an API that uses AI to generate sports betting predictions. I want this web app to utilise this data and monteise it with monthy subscriptions.
+The web app needs to have a highly converting landing page, authentication, and a dashboard that displays the data. Keep in mind that we need to implement a logic that will hanlde if a user is paid or not.
+
+- I want the code to be well structured and organised. Use best practices like MVC, SOLID, and DRY principles.
+- I want the code to be clean and readable.
+- I want the code to be scalable and easy to maintain.
+- I want the code to be secure.
+- I want the code to be fast.
+- I want the code to be responsive.
+- I want the code to be SEO friendly.
+
+I want you to start only by creating the landing page. We'll work on other parts later. No need to create the whole project, just the landing page.
