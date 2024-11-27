@@ -1,4 +1,5 @@
 import Hero from '@/components/landing/Hero'
+import LiveResults from '@/components/landing/LiveResults'
 import Features from '@/components/landing/Features'
 import Pricing from '@/components/landing/Pricing'
 import Testimonials from '@/components/landing/Testimonials'
@@ -10,6 +11,7 @@ export default function Home() {
     <main>
       <Navbar />
       <Hero />
+      <LiveResults />
       <Features />
       <Pricing />
       <Testimonials />
