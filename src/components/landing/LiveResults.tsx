@@ -11,7 +11,9 @@ type Result = {
   rawDate: string
   date: string
   teamA: string
+  teamALogo: string
   teamB: string
+  teamBLogo: string
   market: string
   selection: string
   odds: number
@@ -98,31 +100,21 @@ const ResultIcon = ({ result }: { result: string }) => {
   }
 }
 
-// Simplify the date formatting to just parse the database date string
-const formatDateString = (dateString: string): string => {
-  try {
-    // Parse the date string from database (which is already in the correct timezone)
-    const date = dateString.split('T')[1].split('.')[0].substring(0, 5)
-    const day = dateString.split('T')[0].split('-')[2]
-    const month = dateString.split('T')[0].split('-')[1]
-    return `${date} ${day}-${month}`
-  } catch (e) {
-    console.error('Error parsing date:', dateString)
-    return dateString
-  }
-}
-
 export default function LiveResults() {
   const [recentResults, setRecentResults] = useState<Result[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
 
+  // Only fetch data after component mounts on client
   useEffect(() => {
     setMounted(true)
   }, [])
 
   useEffect(() => {
+    // Only fetch if component is mounted
+    if (!mounted) return
+
     const fetchResults = async () => {
       try {
         setIsLoading(true)
@@ -142,11 +134,13 @@ export default function LiveResults() {
               status,
               home_team:teams!fixtures_home_team_id_fkey (
                 id,
-                name
+                name,
+                logo_url
               ),
               away_team:teams!fixtures_away_team_id_fkey (
                 id,
-                name
+                name,
+                logo_url
               )
             )
           `)
@@ -161,10 +155,11 @@ export default function LiveResults() {
         if (data) {
           const transformedData = data.map((bet: any) => ({
             id: bet.id,
-            rawDate: bet.fixtures.date,
-            date: '',
+            date: `${bet.fixtures.date.split('T')[1].split(':').slice(0, 2).join(':')} ${bet.fixtures.date.split('T')[0].split('-').slice(1).reverse().join('-')}`,
             teamA: bet.fixtures.home_team.name,
+            teamALogo: bet.fixtures.home_team.logo_url,
             teamB: bet.fixtures.away_team.name,
+            teamBLogo: bet.fixtures.away_team.logo_url,
             market: bet.market,
             selection: bet.selection,
             odds: bet.odds,
@@ -184,18 +179,20 @@ export default function LiveResults() {
     }
 
     fetchResults()
-  }, [])
+  }, [mounted]) // Only run when mounted changes
 
-  // Format dates when component mounts
-  useEffect(() => {
-    if (mounted && recentResults.length > 0) {
-      const formattedResults = recentResults.map(result => ({
-        ...result,
-        date: formatDateString(result.rawDate)
-      }))
-      setRecentResults(formattedResults)
-    }
-  }, [mounted, recentResults.length])
+  // Show loading state during SSR and initial client render
+  if (!mounted) {
+    return (
+      <section className="py-24 bg-white">
+        <Container>
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+          </div>
+        </Container>
+      </section>
+    )
+  }
 
   return (
     <section className="py-24 bg-white">
@@ -258,17 +255,39 @@ export default function LiveResults() {
                         className="hover:bg-gray-50/50 transition-colors group"
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                          {mounted ? result.date : ''}
+                          {result.date}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
-                            {result.teamA}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <img 
+                              src={result.teamALogo || '/placeholder-team-logo.png'} 
+                              alt={`${result.teamA} logo`}
+                              className="w-5 h-5 object-contain"
+                              onError={(e) => {
+                                console.log('Failed to load logo for:', result.teamA, result.teamALogo)
+                                e.currentTarget.src = '/placeholder-team-logo.png'
+                              }}
+                            />
+                            <span className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                              {result.teamA}
+                            </span>
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-gray-900">
-                            {result.teamB}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            <img 
+                              src={result.teamBLogo || '/placeholder-team-logo.png'} 
+                              alt={`${result.teamB} logo`}
+                              className="w-5 h-5 object-contain"
+                              onError={(e) => {
+                                console.log('Failed to load logo for:', result.teamB, result.teamBLogo)
+                                e.currentTarget.src = '/placeholder-team-logo.png'
+                              }}
+                            />
+                            <span className="text-sm text-gray-900">
+                              {result.teamB}
+                            </span>
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="text-sm text-gray-900 font-medium">
