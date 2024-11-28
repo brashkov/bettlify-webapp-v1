@@ -1,29 +1,112 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
 import Container from '../shared/Container'
 import Button from '../shared/Button'
 import Image from 'next/image'
 
+type Stats = {
+  accuracy: number
+  profitLoss: number
+  totalPredictions: number
+}
+
 const stats = [
   {
-    value: '92.4%',
-    label: ['Analysis', 'Accuracy'],
+    label: ['AI Analysis', 'Accuracy'],
     isLive: true
   },
   {
-    value: '+156.8',
     label: ['30 Days P/L', 'Units'],
     isLive: true,
     update: 'REAL-TIME'
   },
   {
-    value: '1,458',
-    label: ['Successful', 'Predictions'],
+    label: ['AI', 'Predictions'],
     isLive: true
   }
 ]
 
 export default function Hero() {
+  const [statsData, setStatsData] = useState<Stats>({
+    accuracy: 0,
+    profitLoss: 0,
+    totalPredictions: 0
+  })
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // 1. Get Analysis Accuracy
+        const { data: mainBets, error: mainBetsError } = await supabase
+          .from('bets')
+          .select('result')
+          .eq('type', 'main')
+          .neq('result', 'pending')
+          .neq('result', 'void')
+
+        if (mainBetsError) throw mainBetsError
+
+        const totalFinishedBets = mainBets?.length || 0
+        const winningBets = mainBets?.filter(bet => 
+          bet.result === 'win' || bet.result === 'half-win'
+        ).length || 0
+        const accuracy = totalFinishedBets > 0 
+          ? (winningBets / totalFinishedBets) * 100 
+          : 0
+
+        // 2. Get 30 Days P/L
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+        const { data: recentBets, error: recentBetsError } = await supabase
+          .from('bets')
+          .select('profit_loss')
+          .eq('type', 'main')
+          .neq('result', 'pending')
+          .gte('created_at', thirtyDaysAgo.toISOString())
+
+        if (recentBetsError) throw recentBetsError
+
+        const profitLoss = recentBets?.reduce((sum, bet) => 
+          sum + (bet.profit_loss || 0), 0
+        ) || 0
+
+        // 3. Get Total Predictions
+        const { count, error: countError } = await supabase
+          .from('bets')
+          .select('*', { count: 'exact', head: true })
+
+        if (countError) throw countError
+
+        setStatsData({
+          accuracy: Number(accuracy.toFixed(1)),
+          profitLoss: Number(profitLoss.toFixed(1)),
+          totalPredictions: count || 0
+        })
+
+      } catch (error) {
+        console.error('Error fetching stats:', error)
+      }
+    }
+
+    fetchStats()
+  }, [])
+
+  const getStatValue = (index: number) => {
+    switch(index) {
+      case 0:
+        return `${statsData.accuracy}%`
+      case 1:
+        return `${statsData.profitLoss > 0 ? '+' : ''}${statsData.profitLoss.toFixed(2)}`
+      case 2:
+        return statsData.totalPredictions.toLocaleString()
+      default:
+        return '0'
+    }
+  }
+
   return (
     <section className="relative pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-emerald-900">
       {/* Background Pattern */}
@@ -88,7 +171,6 @@ export default function Hero() {
                   key={index}
                   className="relative bg-emerald-800/40 backdrop-blur-md rounded-2xl p-3 md:p-6 border border-emerald-600/20 transition-all duration-300 hover:translate-y-[-2px] hover:bg-emerald-800/50 group"
                 >
-                  {/* Live indicator */}
                   {stat.isLive && (
                     <div className="absolute top-2 right-2 md:top-3 md:right-3">
                       <span className="flex h-1.5 md:h-2 w-1.5 md:w-2">
@@ -98,7 +180,6 @@ export default function Hero() {
                     </div>
                   )}
 
-                  {/* Update label */}
                   {stat.update && (
                     <div className="absolute -top-6 left-0 right-0 text-center">
                       <span className="text-[10px] md:text-xs font-medium tracking-widest text-emerald-400/90">
@@ -109,7 +190,7 @@ export default function Hero() {
 
                   <div className="text-center">
                     <div className="text-2xl md:text-[42px] font-bold text-white mb-1 md:mb-2 tracking-tight group-hover:scale-105 transition-transform duration-300">
-                      {stat.value}
+                      {getStatValue(index)}
                     </div>
                     <div className="space-y-0">
                       {stat.label.map((line, i) => (
@@ -123,7 +204,6 @@ export default function Hero() {
                     </div>
                   </div>
 
-                  {/* Subtle gradient overlay */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-emerald-600/5 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               ))}
