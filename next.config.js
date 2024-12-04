@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['media-4.api-sports.io'], // Add your image domain here
+    domains: [
+      'media.api-sports.io',
+      'media-4.api-sports.io'
+    ],
   }
 }
 

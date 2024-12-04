@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Container from '../shared/Container'
 import { CheckCircle, XCircle, MinusCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import Image from 'next/image'
 
 // Types that match your database schema
 type Result = {
@@ -24,42 +25,6 @@ type Team = {
   id: number
   name: string
   logo_url: string
-}
-
-type Fixture = {
-  id: number
-  date: string
-  home_team: Team
-  away_team: Team
-  status: string
-}
-
-type Bet = {
-  id: number
-  fixture_id: number
-  type: string
-  market: string
-  selection: string
-  odds: number
-  confidence: number
-  risk_level: string
-  status: string
-  result: string | null
-  fixtures: {
-    id: number
-    date: string
-    status: string
-    home_team: {
-      id: number
-      name: string
-      logo_url: string
-    }
-    away_team: {
-      id: number
-      name: string
-      logo_url: string
-    }
-  }
 }
 
 const ResultIcon = ({ result }: { result: string }) => {
@@ -156,10 +121,10 @@ export default function LiveResults() {
           const transformedData = data.map((bet: any) => ({
             id: bet.id,
             date: `${bet.fixtures.date.split('T')[1].split(':').slice(0, 2).join(':')} ${bet.fixtures.date.split('T')[0].split('-').slice(1).reverse().join('-')}`,
-            teamA: bet.fixtures.home_team.name,
-            teamALogo: bet.fixtures.home_team.logo_url,
-            teamB: bet.fixtures.away_team.name,
-            teamBLogo: bet.fixtures.away_team.logo_url,
+            teamA: bet.fixtures.home_team?.name || 'Unknown Team',
+            teamALogo: bet.fixtures.home_team?.logo_url || '/placeholder-team-logo.png',
+            teamB: bet.fixtures.away_team?.name || 'Unknown Team',
+            teamBLogo: bet.fixtures.away_team?.logo_url || '/placeholder-team-logo.png',
             market: bet.market,
             selection: bet.selection,
             odds: bet.odds,
@@ -259,13 +224,14 @@ export default function LiveResults() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
-                            <img 
-                              src={result.teamALogo || '/placeholder-team-logo.png'} 
-                              alt={`${result.teamA} logo`}
-                              className="w-5 h-5 object-contain"
-                              onError={(e) => {
-                                console.log('Failed to load logo for:', result.teamA, result.teamALogo)
-                                e.currentTarget.src = '/placeholder-team-logo.png'
+                            <Image 
+                              src={result.teamALogo || '/placeholder-team-logo.png'}
+                              alt={result.teamA} 
+                              width={24} 
+                              height={24} 
+                              className="w-6 h-6"
+                              onError={() => {
+                                console.log('Failed to load logo for:', result.teamA);
                               }}
                             />
                             <span className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
@@ -275,13 +241,14 @@ export default function LiveResults() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center gap-2">
-                            <img 
-                              src={result.teamBLogo || '/placeholder-team-logo.png'} 
-                              alt={`${result.teamB} logo`}
-                              className="w-5 h-5 object-contain"
-                              onError={(e) => {
-                                console.log('Failed to load logo for:', result.teamB, result.teamBLogo)
-                                e.currentTarget.src = '/placeholder-team-logo.png'
+                            <Image 
+                              src={result.teamBLogo || '/placeholder-team-logo.png'}
+                              alt={result.teamB} 
+                              width={24} 
+                              height={24} 
+                              className="w-6 h-6"
+                              onError={() => {
+                                console.log('Failed to load logo for:', result.teamB);
                               }}
                             />
                             <span className="text-sm text-gray-900">

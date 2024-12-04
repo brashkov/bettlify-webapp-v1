@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import Container from '../shared/Container'
 import Button from '../shared/Button'
-import Image from 'next/image'
 
 type Stats = {
   accuracy: number

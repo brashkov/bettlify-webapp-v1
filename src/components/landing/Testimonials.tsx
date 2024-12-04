@@ -34,7 +34,7 @@ export default function Testimonials() {
               key={index}
               className="p-6 rounded-xl bg-white shadow-lg hover:shadow-xl transition-shadow"
             >
-              <p className="text-gray-600 mb-6">"{testimonial.content}"</p>
+              <p className="text-gray-600 mb-6">&ldquo;{testimonial.content}&rdquo;</p>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full bg-gray-200 mr-4" />
                 <div>
