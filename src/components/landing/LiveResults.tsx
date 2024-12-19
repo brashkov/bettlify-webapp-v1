@@ -5,6 +5,7 @@ import Container from '../shared/Container'
 import { CheckCircle, XCircle, MinusCircle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import Image from 'next/image'
+import { format } from 'date-fns'
 
 // Types that match your database schema
 type Result = {
@@ -172,12 +173,121 @@ export default function LiveResults() {
           </p>
         </div>
 
-        <div className="relative">
-          {/* Gradient borders */}
-          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 via-purple-500/30 to-emerald-500/30 rounded-xl blur-xl opacity-50"></div>
-          
-          <div className="relative bg-white/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-200/50">
-            <div className="overflow-x-auto">
+        {!mounted ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+          </div>
+        ) : (
+          <div className="relative">
+            {/* Desktop View - Table */}
+            <div className="relative bg-white/80 backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-gray-200/50 hidden md:block">
+              <div className="overflow-x-auto">
+                {isLoading ? (
+                  <div className="flex justify-center items-center h-40">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
+                  </div>
+                ) : error ? (
+                  <div className="flex justify-center items-center h-40 text-red-500">
+                    {error}
+                  </div>
+                ) : recentResults.length === 0 ? (
+                  <div className="flex justify-center items-center h-40 text-gray-500">
+                    No predictions available
+                  </div>
+                ) : (
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                      <tr className="bg-gray-50/50">
+                        {[
+                          'Fixture Date',
+                          'Home Team',
+                          'Away Team',
+                          'Market',
+                          'Selection',
+                          'Odds',
+                          'Result'
+                        ].map((header) => (
+                          <th
+                            key={header}
+                            scope="col"
+                            className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                          >
+                            {header}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-white">
+                      {recentResults.map((result) => (
+                        <tr 
+                          key={result.id}
+                          className="hover:bg-gray-50/50 transition-colors group"
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                            {result.date}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <Image 
+                                src={result.teamALogo || '/placeholder-team-logo.png'}
+                                alt={result.teamA} 
+                                width={24} 
+                                height={24} 
+                                className="w-6 h-6"
+                                onError={() => {
+                                  console.log('Failed to load logo for:', result.teamA);
+                                }}
+                              />
+                              <span className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
+                                {result.teamA}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-2">
+                              <Image 
+                                src={result.teamBLogo || '/placeholder-team-logo.png'}
+                                alt={result.teamB} 
+                                width={24} 
+                                height={24} 
+                                className="w-6 h-6"
+                                onError={() => {
+                                  console.log('Failed to load logo for:', result.teamB);
+                                }}
+                              />
+                              <span className="text-sm text-gray-900">
+                                {result.teamB}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm text-gray-900 font-medium">
+                              {result.market}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="inline-flex px-3 py-1 text-sm font-medium bg-gray-100 text-gray-800 rounded-full">
+                              {result.selection}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className="text-sm font-bold text-gray-900">
+                              {result.odds}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <ResultIcon result={result.result} />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile View - Cards */}
+            <div className="md:hidden space-y-4">
               {isLoading ? (
                 <div className="flex justify-center items-center h-40">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500" />
@@ -191,108 +301,85 @@ export default function LiveResults() {
                   No predictions available
                 </div>
               ) : (
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead>
-                    <tr className="bg-gray-50/50">
-                      {[
-                        'Fixture Date',
-                        'Home Team',
-                        'Away Team',
-                        'Market',
-                        'Selection',
-                        'Odds',
-                        'Result'
-                      ].map((header) => (
-                        <th
-                          key={header}
-                          scope="col"
-                          className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {recentResults.map((result) => (
-                      <tr 
-                        key={result.id}
-                        className="hover:bg-gray-50/50 transition-colors group"
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                          {result.date}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <Image 
-                              src={result.teamALogo || '/placeholder-team-logo.png'}
-                              alt={result.teamA} 
-                              width={24} 
-                              height={24} 
-                              className="w-6 h-6"
-                              onError={() => {
-                                console.log('Failed to load logo for:', result.teamA);
-                              }}
-                            />
-                            <span className="text-sm font-semibold text-gray-900 group-hover:text-emerald-600 transition-colors">
-                              {result.teamA}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-2">
-                            <Image 
-                              src={result.teamBLogo || '/placeholder-team-logo.png'}
-                              alt={result.teamB} 
-                              width={24} 
-                              height={24} 
-                              className="w-6 h-6"
-                              onError={() => {
-                                console.log('Failed to load logo for:', result.teamB);
-                              }}
-                            />
-                            <span className="text-sm text-gray-900">
-                              {result.teamB}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-gray-900 font-medium">
-                            {result.market}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="inline-flex px-3 py-1 text-sm font-medium bg-gray-100 text-gray-800 rounded-full">
+                recentResults.map((result) => (
+                  <div 
+                    key={result.id}
+                    className="bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] transition-shadow border border-gray-200/50 p-4 space-y-4"
+                  >
+                    {/* Match Date and Live Indicator */}
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-900">
+                        {result.date}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span className="text-xs font-medium text-gray-600">LIVE</span>
+                      </div>
+                    </div>
+
+                    {/* Teams */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Image 
+                            src={result.teamALogo}
+                            alt={result.teamA}
+                            width={24}
+                            height={24}
+                            className="w-6 h-6"
+                          />
+                          <span className="text-sm font-medium text-gray-900">{result.teamA}</span>
+                        </div>
+                        <ResultIcon result={result.result} />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Image 
+                          src={result.teamBLogo}
+                          alt={result.teamB}
+                          width={24}
+                          height={24}
+                          className="w-6 h-6"
+                        />
+                        <span className="text-sm text-gray-900">{result.teamB}</span>
+                      </div>
+                    </div>
+
+                    {/* Prediction Details */}
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                      <div className="space-y-1">
+                        <div className="text-xs text-gray-500">Prediction</div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium text-gray-900">{result.market}</span>
+                          <span className="inline-flex px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
                             {result.selection}
                           </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-bold text-gray-900">
-                            {result.odds}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <ResultIcon result={result.result} />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </div>
+                      </div>
+                      <div className="text-right space-y-1">
+                        <div className="text-xs text-gray-500">Odds</div>
+                        <div className="text-sm font-bold text-emerald-600">{result.odds}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))
               )}
             </div>
-          </div>
 
-          {/* Live indicator */}
-          <div className="absolute -top-3 right-3 bg-white px-3 py-1 rounded-full shadow-md border border-gray-200/50">
-            <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <span className="text-xs font-medium text-gray-600 uppercase tracking-wider">Live Updates</span>
+            {/* Live indicator */}
+            <div className="absolute -top-3 right-3 bg-white px-3 py-1 rounded-full shadow-md border border-gray-200/50">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span className="text-xs font-medium text-gray-600 uppercase tracking-wider">Live Updates</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </Container>
     </section>
   )
