@@ -1,86 +1,44 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
 import Container from './Container'
-import Button from './Button'
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   return (
-    <nav className="fixed w-full bg-white shadow-md z-50">
-      <Container className="flex items-center justify-between h-16">
-        <Link href="/" className="font-bold text-xl text-emerald-700">
-          BetPredict AI
-        </Link>
-        
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden p-2 text-emerald-700"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <span className="sr-only">Open menu</span>
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
-          </svg>
-        </button>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <Container>
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="font-bold text-xl text-emerald-700">
+            BetPredict AI
+          </Link>
 
-        {/* Desktop menu */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="#features" className="text-gray-700 hover:text-emerald-700">
-            Features
-          </Link>
-          <Link href="#pricing" className="text-gray-700 hover:text-emerald-700">
-            Pricing
-          </Link>
-          <Link href="#testimonials" className="text-gray-700 hover:text-emerald-700">
-            Testimonials
-          </Link>
-          <Button variant="secondary">Sign In</Button>
-          <Button>Get Started</Button>
-        </div>
-
-        {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="absolute top-16 left-0 right-0 bg-white shadow-lg md:hidden">
-            <div className="flex flex-col p-4 space-y-4">
-              <Link
-                href="#features"
-                className="text-gray-700 hover:text-emerald-700"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Features
-              </Link>
-              <Link
-                href="#pricing"
-                className="text-gray-700 hover:text-emerald-700"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link
-                href="#testimonials"
-                className="text-gray-700 hover:text-emerald-700"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Testimonials
-              </Link>
-              <Button variant="secondary" className="w-full">Sign In</Button>
-              <Button className="w-full">Get Started</Button>
-            </div>
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/#features" className="text-gray-600 hover:text-emerald-600">
+              Features
+            </Link>
+            <Link href="/#pricing" className="text-gray-600 hover:text-emerald-600">
+              Pricing
+            </Link>
+            <Link href="/#testimonials" className="text-gray-600 hover:text-emerald-600">
+              Testimonials
+            </Link>
           </div>
-        )}
+
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/signin" 
+              className="text-emerald-700 font-medium hover:text-emerald-600 px-4 py-2 rounded-lg border border-transparent hover:border-emerald-100"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-emerald-500 transition-colors"
+            >
+              Start For Free
+            </Link>
+          </div>
+        </div>
       </Container>
     </nav>
   )
