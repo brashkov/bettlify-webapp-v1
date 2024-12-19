@@ -63,9 +63,11 @@ export default function Testimonials() {
               <div className="flex items-center mb-6">
                 <div className="relative">
                   <div className="w-16 h-16 rounded-full overflow-hidden">
-                    <img 
+                    <Image 
                       src={testimonial.image} 
                       alt={testimonial.name}
+                      width={64}
+                      height={64}
                       className="w-full h-full object-cover"
                     />
                   </div>
