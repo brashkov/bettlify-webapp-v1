@@ -51,13 +51,13 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-emerald-50/30">
+    <section className="py-24 bg-white">
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
             Why Choose Our Platform
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-black max-w-2xl mx-auto">
             Leverage the power of advanced AI technology and data analytics to make informed betting decisions
           </p>
         </div>
@@ -66,18 +66,18 @@ export default function Features() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative p-8 rounded-2xl bg-white border border-emerald-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative p-8 rounded-2xl bg-white border-2 border-emerald-100 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex items-center gap-4 mb-4">
                 <div className="p-3 rounded-xl bg-emerald-100 group-hover:bg-emerald-200 transition-colors duration-300">
                   <feature.icon className="w-6 h-6 text-emerald-600 group-hover:text-emerald-700" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{feature.title}</h3>
+                  <h3 className="font-semibold text-black">{feature.title}</h3>
                   <p className="text-sm text-emerald-600 font-medium">{feature.stats}</p>
                 </div>
               </div>
-              <p className="text-gray-600">
+              <p className="text-black">
                 {feature.description}
               </p>
             </div>
@@ -87,10 +87,10 @@ export default function Features() {
         {/* Testimonial */}
         <div className="mt-16 bg-emerald-50 rounded-2xl p-8 text-center">
           <blockquote className="max-w-3xl mx-auto">
-            <p className="text-lg text-gray-700 italic mb-4">
+            <p className="text-lg text-black italic mb-4">
               &quot;Using this platform has completely transformed my betting strategy. The AI predictions combined with the risk management tools have helped me achieve consistent profits for the past 6 months.&quot;
             </p>
-            <footer className="text-gray-600">
+            <footer className="text-black">
               <div className="font-semibold">Michael R.</div>
               <div className="text-sm">Professional Sports Bettor • Member since 2023</div>
             </footer>

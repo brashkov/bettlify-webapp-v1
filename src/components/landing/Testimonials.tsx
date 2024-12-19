@@ -46,10 +46,10 @@ export default function Testimonials() {
     <section id="testimonials" className="py-24 bg-gradient-to-b from-white to-emerald-50">
       <Container>
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">
+          <h2 className="text-4xl font-bold text-black mb-4">
             Trusted by Professional Bettors
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-black max-w-2xl mx-auto">
             Join thousands of successful bettors who have transformed their betting strategy with our AI predictions
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <div 
               key={index}
-              className="p-8 rounded-2xl bg-white shadow-xl hover:shadow-2xl transition-all duration-300 border border-emerald-100"
+              className="p-8 rounded-2xl bg-white shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 border-2 border-emerald-100"
             >
               <div className="flex items-center mb-6">
                 <div className="relative">
@@ -74,27 +74,27 @@ export default function Testimonials() {
                   <CheckBadgeIcon className="w-6 h-6 text-emerald-500 absolute -right-1 -bottom-1 bg-white rounded-full" />
                 </div>
                 <div className="ml-4">
-                  <div className="font-bold text-lg">{testimonial.name}</div>
+                  <div className="font-bold text-lg text-black">{testimonial.name}</div>
                   <div className="text-emerald-600">{testimonial.role}</div>
                 </div>
               </div>
 
-              <p className="text-gray-700 mb-6">
+              <p className="text-black mb-6">
                 &quot;{testimonial.content}&quot;
               </p>
 
               <div className="grid grid-cols-3 gap-4 p-4 bg-emerald-50 rounded-xl">
                 <div className="text-center">
                   <div className="font-bold text-emerald-600">{testimonial.stats.avgBet}</div>
-                  <div className="text-sm text-gray-600">Avg Bet</div>
+                  <div className="text-sm text-black">Avg Bet</div>
                 </div>
                 <div className="text-center border-x border-emerald-200">
                   <div className="font-bold text-emerald-600">{testimonial.stats.monthsUsing}mo</div>
-                  <div className="text-sm text-gray-600">Platform Use</div>
+                  <div className="text-sm text-black">Platform Use</div>
                 </div>
                 <div className="text-center">
                   <div className="font-bold text-emerald-600">{testimonial.stats.totalProfit}</div>
-                  <div className="text-sm text-gray-600">Profit</div>
+                  <div className="text-sm text-black">Profit</div>
                 </div>
               </div>
             </div>
