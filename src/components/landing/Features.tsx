@@ -88,7 +88,7 @@ export default function Features() {
         <div className="mt-16 bg-emerald-50 rounded-2xl p-8 text-center">
           <blockquote className="max-w-3xl mx-auto">
             <p className="text-lg text-gray-700 italic mb-4">
-              "Using this platform has completely transformed my betting strategy. The AI predictions combined with the risk management tools have helped me achieve consistent profits for the past 6 months."
+              &quot;Using this platform has completely transformed my betting strategy. The AI predictions combined with the risk management tools have helped me achieve consistent profits for the past 6 months.&quot;
             </p>
             <footer className="text-gray-600">
               <div className="font-semibold">Michael R.</div>

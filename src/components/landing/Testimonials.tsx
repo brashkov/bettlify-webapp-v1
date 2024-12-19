@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Container from '../shared/Container'
 import { CheckBadgeIcon } from '@heroicons/react/24/solid'
+import Image from 'next/image'
 
 const testimonials = [
   {
@@ -77,7 +78,7 @@ export default function Testimonials() {
               </div>
 
               <p className="text-gray-700 mb-6">
-                "{testimonial.content}"
+                &quot;{testimonial.content}&quot;
               </p>
 
               <div className="grid grid-cols-3 gap-4 p-4 bg-emerald-50 rounded-xl">

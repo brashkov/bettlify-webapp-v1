@@ -30,9 +30,9 @@ export default function MoneyBackGuarantee() {
               </h2>
 
               <p className="text-emerald-300 text-lg mb-8 max-w-2xl mx-auto">
-                Place your bets using our predictions for 60 days, and if you don't achieve at least 
-                25% profit on your betting bankroll, we'll refund your subscription payments in full. 
-                We're that confident in our AI predictions.
+                Place your bets using our predictions for 60 days, and if you don&apos;t achieve at least 
+                25% profit on your betting bankroll, we&apos;ll refund your subscription payments in full. 
+                We&apos;re that confident in our AI predictions.
               </p>
 
               <div className="grid md:grid-cols-3 gap-6 text-left">
@@ -62,7 +62,7 @@ export default function MoneyBackGuarantee() {
                     <span>Full Refund</span>
                   </div>
                   <p className="text-emerald-200 text-sm">
-                    Haven't reached 25% profit after following our predictions? Get every penny from your subscription payments back - no questions asked.
+                    Haven&apos;t reached 25% profit after following our predictions? Get every penny from your subscription payments back - no questions asked.
                   </p>
                 </div>
               </div>
