@@ -14,7 +14,7 @@ export default function Navbar() {
       <Container>
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="font-bold text-xl text-emerald-700">
-            BetPredict AI
+            Bettlify
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
@@ -66,7 +66,7 @@ export default function Navbar() {
           <div className="p-4">
             <div className="flex justify-between items-center mb-8">
               <Link href="/" className="font-bold text-xl text-white">
-                BetPredict AI
+                Bettlify
               </Link>
               <button
                 onClick={() => setIsMenuOpen(false)}

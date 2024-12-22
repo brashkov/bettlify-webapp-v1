@@ -109,7 +109,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-emerald-900">
+    <section aria-label="Hero Section" className="relative pt-20 md:pt-28 pb-16 md:pb-24 overflow-hidden bg-emerald-900">
       {/* Background Pattern */}
       <div className="absolute inset-0" style={{
         backgroundImage: `
@@ -142,7 +142,7 @@ export default function Hero() {
                 Start Free Trial Now
               </Link>
               <p className="mt-4 text-emerald-200 text-sm">
-                BetPredict AI is free to try for as long as you&apos;d like
+                Bettlify is free to try for as long as you&apos;d like
               </p>
             </div>
           </div>
