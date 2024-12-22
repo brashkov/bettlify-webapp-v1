@@ -36,6 +36,8 @@ export default function Hero() {
     totalPredictions: 0
   })
 
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -149,20 +151,23 @@ export default function Hero() {
 
           {/* Right side - Image and Stats */}
           <div className="flex-1 relative w-full">
-            {/* Image Section */}
+            {/* Video Section */}
             <div className="relative w-full aspect-[4/3] mb-6">
-              <div className="absolute inset-0 bg-emerald-800/20 rounded-3xl backdrop-blur-sm border border-emerald-700/20">
-                <div className="relative h-full flex items-center justify-center p-4">
-                  <div className="w-full h-full rounded-2xl flex items-center justify-center">
-                    <svg 
-                      className="w-12 h-12 md:w-16 md:h-16 text-emerald-500/20" 
-                      fill="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M4 5h16v14H4V5zm2 2v10h12V7H6zm3 7h6v2H9v-2zm0-3h6v2H9v-2zm0-3h6v2H9V8z"/>
-                    </svg>
-                  </div>
-                </div>
+              <div className="absolute inset-0 rounded-3xl backdrop-blur-[2px] border border-emerald-700/20 overflow-hidden">
+                <video
+                  className="w-full h-full object-cover rounded-2xl"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  onCanPlay={() => setIsVideoLoaded(true)}
+                >
+                  <source
+                    src="/videos/hero-visualization.webm"
+                    type="video/webm"
+                  />
+                </video>
               </div>
             </div>
 

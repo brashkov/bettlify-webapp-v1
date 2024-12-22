@@ -9,6 +9,9 @@ import Navbar from '@/components/shared/Navbar'
 import FAQ from '@/components/landing/FAQ'
 import MoneyBackGuarantee from '@/components/landing/MoneyBackGuarantee'
 
+export const runtime = 'edge'
+export const preferredRegion = 'auto'
+
 export default function Home() {
   const structuredData = {
     "@context": "https://schema.org",
