@@ -4,6 +4,7 @@ import Container from '../shared/Container'
 import { CheckIcon } from '@heroicons/react/24/solid'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import config from '@/config'
 
 const plans = [
   {
@@ -205,28 +206,16 @@ export default function Pricing() {
                   ))}
                 </ul>
 
-                {plan.name === 'Monthly' ? (
-                  <Link 
-                    href="http://localhost:3000/pricing?plan=monthly"
-                    className={`w-full py-4 rounded-xl font-semibold transition-all duration-200 mb-3 inline-block text-center ${
-                      plan.highlighted
-                        ? 'bg-emerald-400 text-emerald-950 hover:bg-emerald-300'
-                        : 'bg-emerald-800 text-emerald-100 hover:bg-emerald-700'
-                    }`}
-                  >
-                    Start Free Trial
-                  </Link>
-                ) : (
-                  <button
-                    className={`w-full py-4 rounded-xl font-semibold transition-all duration-200 mb-3 ${
-                      plan.highlighted
-                        ? 'bg-emerald-400 text-emerald-950 hover:bg-emerald-300'
-                        : 'bg-emerald-800 text-emerald-100 hover:bg-emerald-700'
-                    }`}
-                  >
-                    {plan.name === 'Weekly' ? 'Subscribe Now' : 'Start Free Trial'}
-                  </button>
-                )}
+                <Link 
+                  href={`${config.dashboardUrl}/pricing?plan=${plan.name === 'Weekly' ? 'weekly' : 'monthly'}`}
+                  className={`w-full py-4 rounded-xl font-semibold transition-all duration-200 mb-3 inline-block text-center ${
+                    plan.highlighted
+                      ? 'bg-emerald-400 text-emerald-950 hover:bg-emerald-300'
+                      : 'bg-emerald-800 text-emerald-100 hover:bg-emerald-700'
+                  }`}
+                >
+                  {plan.name === 'Weekly' ? 'Subscribe Now' : 'Start Free Trial'}
+                </Link>
 
                 <p className="text-emerald-300/50 text-xs text-center">
                   {plan.name === 'Weekly' ? 'Instant access' : 'Cancel anytime'}

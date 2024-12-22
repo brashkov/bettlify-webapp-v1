@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Container from './Container'
 import { useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import config from '../../config'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -30,13 +31,13 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center gap-4">
             <Link 
-              href="/signin" 
+              href={config.signInUrl}
               className="text-emerald-700 font-medium hover:text-emerald-600 px-4 py-2 rounded-lg"
             >
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href={config.ctaUrl}
               className="bg-[#8B5CF6] text-white font-medium px-4 py-2 rounded-lg hover:bg-[#7C3AED] transition-colors"
             >
               Start For Free
@@ -45,13 +46,13 @@ export default function Navbar() {
 
           <div className="flex md:hidden items-center gap-3">
             <Link 
-              href="/signin" 
+              href={config.signInUrl}
               className="text-emerald-700 font-medium"
             >
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href={config.ctaUrl}
               className="bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg"
             >
               Start For Free
@@ -87,7 +88,7 @@ export default function Navbar() {
               </p>
 
               <Link
-                href="/signup"
+                href={config.ctaUrl}
                 className="block w-full py-3 bg-emerald-400 text-emerald-950 font-semibold rounded-lg text-center"
               >
                 Start For Free

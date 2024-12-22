@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import Container from '../shared/Container'
 import Button from '../shared/Button'
+import Link from 'next/link'
+import config from '@/config'
 
 type Stats = {
   accuracy: number
@@ -133,11 +135,12 @@ export default function Hero() {
               insights.
             </p>
             <div>
-              <Button 
-                className="w-full sm:w-auto text-base bg-purple-600 hover:bg-purple-500 text-white px-8 py-4 rounded-xl border-0 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-lg font-semibold"
+              <Link
+                href={config.ctaUrl}
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-[#8B5CF6] rounded-xl hover:bg-[#7C3AED] transition-colors duration-200"
               >
                 Start Free Trial Now
-              </Button>
+              </Link>
               <p className="mt-4 text-emerald-200 text-sm">
                 BetPredict AI is free to try for as long as you&apos;d like
               </p>
