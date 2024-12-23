@@ -128,11 +128,11 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
               <span className="inline-block">Unlock your</span>{' '}
               <span className="inline-block text-emerald-300">
-                betting potential
+                sports analysis potential
               </span>
             </h1>
             <p className="text-lg text-emerald-100 mb-8 max-w-xl">
-              Get accurate predictions powered by advanced AI algorithms.
+              Get accurate strategies & analysis powered by advanced AI algorithms.
               Make informed betting decisions with our data-driven
               insights.
             </p>
