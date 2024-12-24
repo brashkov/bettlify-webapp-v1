@@ -68,7 +68,7 @@ export default function MoneyBackGuarantee() {
               </div>
 
               <div className="mt-10 text-emerald-300/80 text-sm">
-                * Money-back guarantee applies when following all our betting predictions during your first 60 days
+                * Money-back guarantee applies when following all our betting analysis during your first 60 days
               </div>
             </div>
           </div>

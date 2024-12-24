@@ -113,7 +113,7 @@ export default function LiveResults() {
           .eq('type', 'main')
           .neq('result', 'pending')
           .eq('fixtures.status', 'FT')
-          .order('created_at', { ascending: false })
+          .order('fixtures(date)', { ascending: false })
           .limit(10)
 
         if (error) throw error
@@ -168,7 +168,7 @@ export default function LiveResults() {
             Live Results From Our Last 10 Analysis
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Track our most recent predictions and their outcomes in real-time. 
+            Track our most recent analysis and their outcomes in real-time. 
             Our AI-powered system maintains high accuracy across different markets.
           </p>
         </div>

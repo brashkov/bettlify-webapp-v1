@@ -19,7 +19,7 @@ const features = [
   },
   {
     title: 'Real-Time Analysis',
-    description: 'Get predictions up to 48 hours before matches, with real-time updates based on team news, injuries, and market movements.',
+    description: 'Get analysis & predictions up to 12 hours before matches, with real-time updates based on team news, injuries, and market movements.',
     icon: BoltIcon,
     stats: '48h Early Access'
   },
@@ -31,13 +31,13 @@ const features = [
   },
   {
     title: 'Proven Track Record',
-    description: 'Our members have reported an average ROI of 15% over the past year, with detailed performance tracking.',
+    description: 'Our members have reported an average ROI of 105% over the past year, with detailed performance tracking.',
     icon: TrophyIcon,
     stats: '15% Avg. ROI'
   },
   {
     title: 'Risk Management',
-    description: 'Professional staking plans and bankroll management tools used by successful bettors worldwide.',
+    description: 'Professional strategies &management tools used by successful professional worldwide.',
     icon: ShieldCheckIcon,
     stats: 'Pro Staking System'
   },
