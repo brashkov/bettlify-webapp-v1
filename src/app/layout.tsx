@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Analytics from '@/components/analytics/Analytics'
 import Footer from '@/components/shared/Footer'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,9 +52,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        {children}
-        <Footer />
-        <Analytics />
+        <Suspense>
+          {children}
+          <Footer />
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );
