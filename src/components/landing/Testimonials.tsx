@@ -68,7 +68,7 @@ const testimonials = [
     },
     {
         "name": "David L.",
-        "content": "This is by far the most accurate prediction tool I've used. Worth every penny.",
+        "content": "This is by far the most accurate prediction tool I&apos;ve used. Worth every penny.",
         "stats": {
             "avgBet": "€25",
             "monthsUsing": 1,
@@ -95,7 +95,7 @@ const testimonials = [
     },
     {
         "name": "Lucas P.",
-        "content": "Solid platform with reliable predictions. Wouldn’t bet without it anymore.",
+        "content": "Solid platform with reliable predictions. Wouldn't bet without it anymore.",
         "stats": {
             "avgBet": "€95",
             "monthsUsing": 2,
