@@ -72,70 +72,24 @@ export default function LiveResults() {
   const [error, setError] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
 
-  // Only fetch data after component mounts on client
   useEffect(() => {
     setMounted(true)
   }, [])
 
   useEffect(() => {
-    // Only fetch if component is mounted
     if (!mounted) return
 
     const fetchResults = async () => {
       try {
         setIsLoading(true)
-        const { data, error } = await supabase
-          .from('bets')
-          .select(`
-            id,
-            fixture_id,
-            type,
-            market,
-            selection,
-            odds,
-            result,
-            fixtures!inner (
-              id,
-              date,
-              status,
-              home_team:teams!fixtures_home_team_id_fkey (
-                id,
-                name,
-                logo_url
-              ),
-              away_team:teams!fixtures_away_team_id_fkey (
-                id,
-                name,
-                logo_url
-              )
-            )
-          `)
-          .eq('type', 'main')
-          .neq('result', 'pending')
-          .eq('fixtures.status', 'FT')
-          .order('fixtures(date)', { ascending: false })
-          .limit(10)
-
-        if (error) throw error
-
-        if (data) {
-          const transformedData = data.map((bet: any) => ({
-            id: bet.id,
-            date: `${bet.fixtures.date.split('T')[1].split(':').slice(0, 2).join(':')} ${bet.fixtures.date.split('T')[0].split('-').slice(1).reverse().join('-')}`,
-            teamA: bet.fixtures.home_team?.name || 'Unknown Team',
-            teamALogo: bet.fixtures.home_team?.logo_url || '/placeholder-team-logo.png',
-            teamB: bet.fixtures.away_team?.name || 'Unknown Team',
-            teamBLogo: bet.fixtures.away_team?.logo_url || '/placeholder-team-logo.png',
-            market: bet.market,
-            selection: bet.selection,
-            odds: bet.odds,
-            result: bet.result === 'win' || bet.result === 'half-win' ? 'won' :
-                   bet.result === 'lose' || bet.result === 'half-lose' ? 'lost' :
-                   bet.result === 'void' ? 'void' : 'pending'
-          })) as Result[]
-          
-          setRecentResults(transformedData)
+        const response = await fetch('/api/live-results')
+        const data = await response.json()
+        
+        if ('error' in data) {
+          throw new Error(data.error)
         }
+
+        setRecentResults(data)
       } catch (err) {
         console.error('Error fetching data:', err)
         setError('Failed to fetch predictions')
@@ -145,7 +99,7 @@ export default function LiveResults() {
     }
 
     fetchResults()
-  }, [mounted]) // Only run when mounted changes
+  }, [mounted])
 
   // Show loading state during SSR and initial client render
   if (!mounted) {
