@@ -136,10 +136,10 @@ export default function Pricing() {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Start Winning Big Today
             <br />
-            <span className="text-emerald-400">With AI-Powered Predictions</span>
+            <span className="text-emerald-400">With AI-Powered Fixture Analysis</span>
           </h2>
           <p className="text-emerald-300 text-lg mb-6">
-            Join over 10,000 profitable bettors who trust our 97% accuracy rate
+            Join hundreds of profitable users who trust our AI analysis and predictions methods!
           </p>
           <div className="inline-flex flex-col items-center gap-3">
             <div className="bg-emerald-900/50 rounded-full px-6 py-2.5 border border-emerald-400/30">

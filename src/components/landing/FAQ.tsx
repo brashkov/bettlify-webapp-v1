@@ -64,7 +64,10 @@ function FAQItem({ question, answer, isFirst = false }: {
 
 export default function FAQ() {
   return (
-    <section className="py-24 bg-gray-50">
+    <section 
+      id="faq" 
+      className="py-24 bg-white scroll-mt-16"
+    >
       <Container>
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-emerald-950 mb-4">
