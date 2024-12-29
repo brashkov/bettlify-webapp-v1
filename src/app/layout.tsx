@@ -51,12 +51,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <Analytics />
+      </head>
       <body className={inter.className}>
-        <Suspense>
-          {children}
-          <Footer />
-          <Analytics />
-        </Suspense>
+        {children}
+        <Footer />
       </body>
     </html>
   );

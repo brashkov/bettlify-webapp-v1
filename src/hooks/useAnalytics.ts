@@ -17,16 +17,34 @@ export function useAnalytics() {
 
   // Initialize Facebook Pixel
   useEffect(() => {
-    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
-      window.fbq('init', FACEBOOK_PIXEL_ID)
-      window.fbq('track', FB_EVENTS.PAGEVIEW)
+    const initPixel = () => {
+      if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined') {
+        try {
+          window.fbq('init', FACEBOOK_PIXEL_ID)
+          window.fbq('track', FB_EVENTS.PAGEVIEW)
+        } catch (error) {
+          console.error('Failed to initialize Facebook Pixel:', error)
+        }
+      }
     }
+
+    // Try to initialize immediately
+    initPixel()
+
+    // Fallback: try again after a short delay
+    const timer = setTimeout(initPixel, 2000)
+
+    return () => clearTimeout(timer)
   }, [])
 
   // Track page views on route changes
   useEffect(() => {
     if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', FB_EVENTS.PAGEVIEW)
+      try {
+        window.fbq('track', FB_EVENTS.PAGEVIEW)
+      } catch (error) {
+        console.error('Failed to track page view:', error)
+      }
     }
   }, [pathname, searchParams])
 } 
