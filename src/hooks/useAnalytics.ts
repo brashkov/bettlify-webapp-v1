@@ -7,6 +7,7 @@ import { FACEBOOK_PIXEL_ID, FB_EVENTS } from '@/lib/analytics-config'
 declare global {
   interface Window {
     fbq: any
+    dataLayer: any[]
   }
 }
 
@@ -14,9 +15,9 @@ export function useAnalytics() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  // Initialize Facebook Pixel
   useEffect(() => {
-    // Initialize Facebook Pixel
-    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined') {
+    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
       window.fbq('init', FACEBOOK_PIXEL_ID)
       window.fbq('track', FB_EVENTS.PAGEVIEW)
     }
@@ -24,7 +25,7 @@ export function useAnalytics() {
 
   // Track page views on route changes
   useEffect(() => {
-    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined') {
+    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
       window.fbq('track', FB_EVENTS.PAGEVIEW)
     }
   }, [pathname, searchParams])
