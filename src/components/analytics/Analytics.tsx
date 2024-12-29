@@ -1,12 +1,16 @@
 'use client'
 
 import Script from 'next/script'
+import { Suspense } from 'react'
 import { FACEBOOK_PIXEL_ID, GTM_ID } from '@/lib/analytics-config'
 import { useAnalytics } from '@/hooks/useAnalytics'
 
-export default function Analytics() {
+function AnalyticsContent() {
   useAnalytics()
+  return null
+}
 
+export default function Analytics() {
   return (
     <>
       {/* Google Tag Manager */}
@@ -66,6 +70,10 @@ export default function Analytics() {
           </noscript>
         </>
       )}
+
+      <Suspense fallback={null}>
+        <AnalyticsContent />
+      </Suspense>
     </>
   )
 } 

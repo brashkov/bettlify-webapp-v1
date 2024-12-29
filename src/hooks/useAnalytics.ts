@@ -28,23 +28,23 @@ export function useAnalytics() {
       }
     }
 
-    // Try to initialize immediately
     initPixel()
-
-    // Fallback: try again after a short delay
     const timer = setTimeout(initPixel, 2000)
-
     return () => clearTimeout(timer)
   }, [])
 
   // Track page views on route changes
   useEffect(() => {
-    if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
-      try {
-        window.fbq('track', FB_EVENTS.PAGEVIEW)
-      } catch (error) {
-        console.error('Failed to track page view:', error)
+    const handleRouteChange = () => {
+      if (FACEBOOK_PIXEL_ID && typeof window !== 'undefined' && window.fbq) {
+        try {
+          window.fbq('track', FB_EVENTS.PAGEVIEW)
+        } catch (error) {
+          console.error('Failed to track page view:', error)
+        }
       }
     }
-  }, [pathname, searchParams])
+
+    handleRouteChange()
+  }, [pathname])
 } 
