@@ -2,6 +2,7 @@ import Script from 'next/script'
 import Hero from '@/components/landing/Hero'
 import LiveResults from '@/components/landing/LiveResults'
 import Features from '@/components/landing/Features'
+import HowItWorks from '@/components/landing/HowItWorks'
 import Pricing from '@/components/landing/Pricing'
 import Testimonials from '@/components/landing/Testimonials'
 import CallToAction from '@/components/landing/CallToAction'
@@ -43,6 +44,7 @@ export default function Home() {
         <Navbar />
         <Hero />
         <LiveResults />
+        <HowItWorks />
         <Features />
         <Pricing />
         <Testimonials />

@@ -28,6 +28,7 @@ export default {
       },
       animation: {
         blob: "blob 7s infinite",
+        progress: "progress 5s linear infinite",
       },
       keyframes: {
         blob: {
@@ -42,6 +43,24 @@ export default {
           },
           "100%": {
             transform: "translate(0px, 0px) scale(1)",
+          },
+        },
+        progress: {
+          "0%": {
+            transform: "scaleX(0)",
+            transformOrigin: "left"
+          },
+          "49%": {
+            transform: "scaleX(1)",
+            transformOrigin: "left"
+          },
+          "50%": {
+            transform: "scaleX(1)",
+            transformOrigin: "right"
+          },
+          "100%": {
+            transform: "scaleX(0)",
+            transformOrigin: "right"
           },
         },
       },
