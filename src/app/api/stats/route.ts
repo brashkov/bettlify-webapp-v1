@@ -3,19 +3,18 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    // Get Analysis Accuracy
+    // Get Analysis Accuracy + include void bets
     const { data: mainBets, error: mainBetsError } = await supabase
       .from('bets')
       .select('result')
       .eq('type', 'main')
       .neq('result', 'pending')
-      .neq('result', 'void')
 
     if (mainBetsError) throw mainBetsError
 
     const totalFinishedBets = mainBets?.length || 0
     const winningBets = mainBets?.filter(bet => 
-      bet.result === 'win' || bet.result === 'half-win'
+      bet.result === 'win' || bet.result === 'half-win' || bet.result === 'void'
     ).length || 0
     const accuracy = totalFinishedBets > 0 
       ? (winningBets / totalFinishedBets) * 100 
