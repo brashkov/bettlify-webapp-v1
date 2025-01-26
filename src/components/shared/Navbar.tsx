@@ -5,6 +5,7 @@ import Container from './Container'
 import { useState } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import config from '../../config'
+import Logo from './Logo'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -13,9 +14,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
       <Container>
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="font-bold text-xl text-emerald-700">
-            Bettlify
-          </Link>
+          <Logo className="w-auto h-10" />
 
           <div className="hidden md:flex items-center gap-8">
             <Link href="/#features" className="text-gray-600 hover:text-emerald-600 scroll-smooth">
@@ -65,9 +64,7 @@ export default function Navbar() {
         <div className="fixed inset-0 bg-emerald-950 z-50">
           <div className="p-4">
             <div className="flex justify-between items-center mb-8">
-              <Link href="/" className="font-bold text-xl text-white">
-                Bettlify
-              </Link>
+              <Logo className="w-auto h-10 brightness-0 invert" />
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="p-2 text-emerald-400 hover:text-emerald-300"
